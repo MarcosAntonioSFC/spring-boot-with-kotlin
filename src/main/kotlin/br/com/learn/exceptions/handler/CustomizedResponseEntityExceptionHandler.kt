@@ -1,5 +1,7 @@
-package br.com.learn.exceptions
+package br.com.learn.exceptions.handler
 
+import br.com.learn.exceptions.ExceptionResponse
+import br.com.learn.exceptions.ResourceNotFoundException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ControllerAdvice
@@ -19,10 +21,10 @@ class CustomizedResponseEntityExceptionHandler : ResponseEntityExceptionHandler(
         return ResponseEntity(exceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR)
     }
 
-    @ExceptionHandler(UnssuportedMathOperationException::class)
-    fun handleBadRequestExceptions(exception: Exception, request: WebRequest): ResponseEntity<ExceptionResponse> {
+    @ExceptionHandler(ResourceNotFoundException::class)
+    fun ResourceNotFoundExceptions(exception: Exception, request: WebRequest): ResponseEntity<ExceptionResponse> {
         val exceptionResponse = ExceptionResponse(Date(), exception.message, request.getDescription(false))
-        return ResponseEntity(exceptionResponse, HttpStatus.BAD_REQUEST)
+        return ResponseEntity(exceptionResponse, HttpStatus.NOT_FOUND)
     }
 
 }
